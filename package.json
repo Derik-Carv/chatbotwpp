@@ -1,0 +1,19 @@
+{
+  "name": "chatbotwpp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --watch ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "chatbotwpp": "file:",
+    "puppeteer": "^23.1.1",
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.25.0",
+    "wwebjs-mongo": "^1.1.0"
+  }
+}

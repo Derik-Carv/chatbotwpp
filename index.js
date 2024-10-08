@@ -184,7 +184,7 @@ client.on('message_create', async (message) => {
         client.sendMessage(message.from, `Aguarde enquanto chamamos um atendente.`)
         clameSuport(message)
     }
-    else if (/^[\p{L}]+$/u.test(message.body)) {
+    else if (/\b[\p{L}]+$\b/u.test(message.body)) {
         // AGUARDA O ENVIO DA RESPOSTA E DEPOIS O ENVIO DAS OPÇÕES
         await message.reply('Seja bem-vindo à Entrelaços Crochê. Aqui temos várias peças de crochê feitas à mão. Você pode ver mais opções no nosso site: ' + url);
         await selecao()

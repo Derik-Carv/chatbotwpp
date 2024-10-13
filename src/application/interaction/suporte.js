@@ -1,4 +1,4 @@
-async function clameSuport(a, client) { // FUNÇÃO QUE INICIA A CHAMADA AO ATENDIMENTO.
+async function clameSuport(a, client, responseNew) { // FUNÇÃO QUE INICIA A CHAMADA AO ATENDIMENTO.
     // NÚMERO PARA ENVIAR A MENSAGEM (FORMATO INTERNACIONAL)
     const phoneNumberDerik = '559188502326';  // Substitua pelo número desejado
     const phoneNumberHelen = '559185039235';  // Substitua pelo número desejado
@@ -7,6 +7,7 @@ async function clameSuport(a, client) { // FUNÇÃO QUE INICIA A CHAMADA AO ATEN
     const messageSite = 'Alguém quer INFORMAÇÃO vinda do site.'
     const messageEncomenda = `Você recebeu uma nova encomenda`
     const messagePedido = `COMPRA SOLICITADA! Temos um pedido feito diretamente pelo site.`
+    const messageHelp = `CLIENTE PRECISA DE AJUDA. URGENTE! \n Cliente está tendo dificuldade em entender a forma de atendimento.`
 
     if(a.body === `4`) {
          // Função para enviar a mensagem
@@ -24,6 +25,11 @@ async function clameSuport(a, client) { // FUNÇÃO QUE INICIA A CHAMADA AO ATEN
         await client.sendMessage(`${phoneNumberDerik}@c.us`, messageSite)
         await client.sendMessage(`${phoneNumberHelen}@c.us`, messageSite)
     }
+    else
+        if (responseNew === true) {
+            await client.sendMessage(`${phoneNumberDerik}@c.us`, messageHelp)
+            await client.sendMessage(`${phoneNumberHelen}@c.us`, messageHelp)
+        }
     else
         if (a.body && a.body.match(/\bencomenda\b/i)) {
         await client.sendMessage(`${phoneNumberDerik}@c.us`, messageEncomenda)

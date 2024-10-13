@@ -1,6 +1,6 @@
-const { responderComCatalogo } = require('./catalogo')
-const { clameSuport } = require('./suporte')
-const { humanControl } = require('./ignorelist')
+const { responderComCatalogo } = require('../options/catalogo')
+const { clameSuport } = require('../interaction/suporte')
+const { humanControl } = require('../interaction/ignorelist')
 
 function options(message, client, url) { // FUNÇÃO CRIADA PARA MOSTRAR AS OPÇÕES
     if (message.body == 1) {

@@ -1,0 +1,4 @@
+// INSTALL DEPENDECE ORDER:
+// #1 npm i whatsapp-web.js  
+// #2 npm i qrcode-terminal  
+// #3 npm install wwebjs-mongo 

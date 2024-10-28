@@ -1,4 +1,12 @@
 // INSTALL DEPENDECE ORDER:
+// ## npm init -y
+// #0 npm install express --save
 // #1 npm i whatsapp-web.js  
 // #2 npm i qrcode-terminal  
 // #3 npm install wwebjs-mongo 
+// #4 npm install ejs
+
+Você pode configurar o CORS para permitir requisições 
+apenas da origem específica, localhost:5570
+
+// npm install cors

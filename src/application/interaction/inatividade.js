@@ -1,6 +1,10 @@
 let timeoutHandle = null; // TEMPORIZADOR GLOBAL PARA DETECTAR INATIVIDADE
 // FUNÇÃO QUE REINICIA O ATENDIMENTO APÓS 10 MINUTOS DE INATIVIDADE
-async function startInactivityTimer (message, client, url) {
+
+const url = `https://derik-carv.github.io/entrelacos/`;  // CASO QUEIRA ADICIONAR UM SITE, COLOCA O LINK AQUI.
+
+async function startInactivityTimer (message, client) {
+    
     // LIMPA O TEMPORIZADOR ANTERIOR (SE EXISTIR)
     if (timeoutHandle) {
         clearTimeout(timeoutHandle);

@@ -1,22 +1,54 @@
-const { createServer } = require('node:http') // utilizando as bibliotecas nativas
-const { once } = require('node:events')
+const express = require('express');
+const cors = require('cors');
+const app = express();
+const clientside = 'http://localhost:5570';
 
-async function server() {
-    async function HttpHandler(request, response) {
-        try {
-            const data = await once(request, 'data')
-            response.writeHead(200)  // ver detalhes no site http cats
-            response.end('Requisição recebida com sucesso...')
-        } catch (e) {
-            response.writeHead(500)
-        }
+let ligar = false;
+
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", clientside);
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    next();
+});
+
+app.use(cors({
+    origin: clientside,
+    methods: 'GET, POST, PUT, DELETE, OPTIONS',
+    allowedHeaders: 'Content-Type, Authorization'
+}));
+
+app.use(express.json());
+
+app.post('/', (req, res) => {
+    ligar = req.body.ligar;
+    console.log('Dados recebidos do frontend:', ligar);
+    if (ligar) {
+        console.log('Bot foi ligado.');
+    } else {
+        console.log('Bot foi desligado.');
     }
+    res.json({ message: ligar ? 'Bot Ligado!' : 'Bot Desligado!' });
+});
 
-    const app = createServer(HttpHandler) // Essa função fala para o Node.js: “Crie um servidor!”.
-        .listen(4445) // define a porta que vai rodar.
-        .on('listening', () => console.log('http server rodando...'))
-        //define um ouvinte para o evento 'listening'. Quando o servidor estiver ouvindo na porta especificada, a função de retorno de chamada será executada e imprimirá a mensagem
-    return app
+app.get('/healthcheck', (request, response)=>{
+    response.status(200).send('Server On')
+});
+
+app.get('/status', (request, response) => {
+    response.json({ ligar });
+});
+
+function server() {
+    return new Promise((resolve, reject) => {
+        app.listen(5558, (error) => {
+            if (error) {
+                return reject(error);
+            }
+            console.log(`http server rodando... \n url: http://localhost:5558/ \n`);
+            resolve();
+        });
+    });
 }
 
-module.exports = { server }
+module.exports = { server, getLigar: () => ligar, setLigar: (value) => { ligar = value } };

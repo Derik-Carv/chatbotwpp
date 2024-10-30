@@ -20,21 +20,6 @@ async function chatStage(message, userId) {
         console.log(`Estágio inicializado para o usuário ${userId}: ${userStage.fase}`);
     }
 
-    // Verifica se o estágio do usuário é 'menu_start'
-    if (userStage.fase === `menu_start`) {
-        if (message.body === `1`) {
-            userStage.fase = `catalogo`; // Atualizando para 'catalogo'
-            console.log(`Troca de estágio: ${userId} de menu_start para catalogo`);
-        }
-    } 
-    // Verifica se o estágio do usuário é 'catalogo'
-    else if (userStage.fase === `catalogo`) {
-        if (message.body === `2`) {
-            userStage.fase = `menu_start`; // Atualizando para 'menu_start'
-            console.log(`Troca de estágio: ${userId} de catalogo para menu_start`);
-        }
-    }
-
     // Log para verificar se o usuário não é o atual
     Object.keys(stages).forEach(item => {
         if (item !== userId) {

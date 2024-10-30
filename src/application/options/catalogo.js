@@ -3,9 +3,9 @@ const { stages } = require(`../gerenciator/chatstage`);
 async function responderComCatalogo(message, client) {
     // Itera sobre cada usuário no objeto stages
     Object.values(stages).forEach(userStage => {
-        console.log(userStage.user, userStage.fase, 'dentro catalgoooooooo')
         // Verifica se o usuário e o estágio estão corretos
-        if (userStage.user === message.from && userStage.fase === 'catalogo') {
+        if (userStage.user === message.from && userStage.fase === 'menu_start') {
+            userStage.fase = 'catalogo';
             const data = {
                 items: ['Cropped Borboleta', 'Ecobag Pink Pony Club', 'Bolsa Rosas', 'Bolsa Square de Corações', 'Bolsa Barbie', 'Ecobag Corações', 'Ecobag Simples', 'Ecobag Alça Fina', 'Bolsa Girasol'],
                 descriptions: [
@@ -31,10 +31,40 @@ async function responderComCatalogo(message, client) {
                 catalogMessage += `\nProduto: ${item}\nDescrição: ${data.descriptions[index]}\nCores: ${data.colors[index]}\nPreço: ${data.prices[index]}\nTamanhos disponíveis: ${data.sizes[index]}\n\n`;
             });
 
-            // Envia a mensagem com o catálogo
+            const opcCat = `01.Fazer Pedido\n02.Perguntar sobre Produto\n03.Sair`
+
+            // Envia a mensagem com o catálogo e opções
             client.sendMessage(message.from, catalogMessage);
+            client.sendMessage(message.from, opcCat);
         }
+        // Muda o estágio para ir para o submenu
+        userStage.fase = 'nextCat'
     });
 }
 
-module.exports = { responderComCatalogo };
+// Submenu para opções pós catalogo
+async function nextMsg(message, client, userStage) {
+
+        if (userStage.fase === 'nextCat') {
+            if (message.body === '1') {
+                client.sendMessage(message.from, `teste1`)
+            } else
+            if (message.body === '2') {
+                client.sendMessage(message.from, `teste2`)
+            } else
+            if (message.body === '3') {
+                await client.sendMessage(message.from, `Retornando ao menu.`)
+                Object.values(stages).forEach(userStage =>{
+                    if (userStage.user === message.from) {
+                        userStage.fase = 'menu_start'
+                    }
+                })
+                console.log('usuário movido para o estágio menu.')
+                await client.sendMessage(message.from, 'Para seguir com seu atendimento, por favor, responda com o número das opções abaixo: 🔽\n1️⃣. Catálogo 👗👙👘🩱\n2️⃣. Novidades 🔄\n3️⃣. Parceria 🤝\n4️⃣. Suporte 🧑‍💻⚠️\n5️⃣. Falar com atendente 👩‍💻📞');
+            } else {
+                client.sendMessage(message.from, `Opção inválida. Digite 1, 2 ou 3 para selecionar uma opção`);
+            }
+        }
+}
+
+module.exports = { responderComCatalogo, nextMsg};

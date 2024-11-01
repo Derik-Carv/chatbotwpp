@@ -1,13 +1,15 @@
-async function clameSuport(a, client, responseNew) { // FUNÇÃO QUE INICIA A CHAMADA AO ATENDIMENTO.
+async function clameSuport(a, client, responseNew, stageNow) { // FUNÇÃO QUE INICIA A CHAMADA AO ATENDIMENTO.
     // NÚMERO PARA ENVIAR A MENSAGEM (FORMATO INTERNACIONAL)
     const phoneNumberDerik = '559188502326';  // Substitua pelo número desejado
     const phoneNumberHelen = '559185039235';  // Substitua pelo número desejado
     const messageSuporte = 'ATENÇÃO, cliente aguardando seu SUPORTE!';
     const messageAtendente = 'Temos um cliente aguardando seu atendimento!';
-    const messageSite = 'Alguém quer INFORMAÇÃO vinda do site.'
+    const messageSite = 'Cliente deseja INFORMAÇÃO no atendimento.'
     const messageEncomenda = `Você recebeu uma nova encomenda`
-    const messagePedido = `COMPRA SOLICITADA! Temos um pedido feito diretamente pelo site.`
+    const messagePedido = `COMPRA SOLICITADA! Temos um novo pedido solicitado!.`
     const messageHelp = `CLIENTE PRECISA DE AJUDA. URGENTE! \n Cliente está tendo dificuldade em entender a forma de atendimento.`
+
+    console.log('[suporte]', stageNow)
 
     if(a.body === `4`) {
          // Função para enviar a mensagem
@@ -21,7 +23,7 @@ async function clameSuport(a, client, responseNew) { // FUNÇÃO QUE INICIA A CH
         await client.sendMessage(`${phoneNumberHelen}@c.us`, messageAtendente)
     }
     else
-        if (a.body && a.body.match(/\binformar\b/i)) {
+        if ((a.body && a.body.match(/\binformar\b/i)) || stageNow === 'informacao') {
         await client.sendMessage(`${phoneNumberDerik}@c.us`, messageSite)
         await client.sendMessage(`${phoneNumberHelen}@c.us`, messageSite)
     }
@@ -31,7 +33,7 @@ async function clameSuport(a, client, responseNew) { // FUNÇÃO QUE INICIA A CH
             await client.sendMessage(`${phoneNumberHelen}@c.us`, messageHelp)
         }
     else
-        if (a.body && a.body.match(/\bencomenda\b/i)) {
+        if ((a.body && a.body.match(/\bencomenda\b/i)) || stageNow === 'atendimento') {
         await client.sendMessage(`${phoneNumberDerik}@c.us`, messageEncomenda)
         await client.sendMessage(`${phoneNumberHelen}@c.us`, messageEncomenda)
     } else 

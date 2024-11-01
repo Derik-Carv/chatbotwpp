@@ -15,11 +15,11 @@ async function verifyOn(ligar) {
                 await start(); // Inicia o client WhatsApp
             } else if (!data.ligar && ligar) {
                 ligar = data.ligar;
-                console.log('Função start() não foi chamada porque ligar é falso');
+                console.log('[verifyOn] Função start() não foi chamada porque ligar é falso');
             }
             console.log(`Valor de getLigar(): ${getLigar()}`); // Log para verificar o valor atualizado de getLigar()
         } catch (fetchError) {
-            console.error('Erro ao tentar buscar o status:', fetchError);
+            console.error('[verifyOn] Erro ao tentar buscar o status:', fetchError);
         }
     }, 3000); // Verifica o estado a cada 3 segundos
 }

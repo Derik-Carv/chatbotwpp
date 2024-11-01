@@ -13,9 +13,6 @@ async function startInactivityTimer (message, client) {
     if (timeoutHandle) {
         clearTimeout(timeoutHandle);
     }
-    if (!timeoutHandle) {
-       
-    }
 
     // DEFINE UM NOVO TEMPORIZADOR DE 10 MINUTOS (600000MS)
     timeoutHandle = setTimeout(() => {
@@ -31,10 +28,10 @@ async function startInactivityTimer (message, client) {
         Object.values(stages).forEach(userStage =>{
             if (message.from === userStage.user) {
                 userStage.fase = 'inative'
-                console.log(`mudando estágio de atendimento para ${userStage.fase}`)
+                console.log(`[inatividade] mudando estágio de atendimento para ${userStage.fase}`)
             }
         })
-    }, 20000); // 10 MINUTOS EM MILISSEGUNDOS 600000
+    }, 600000); // 10 MINUTOS EM MILISSEGUNDOS
 };
 
 module.exports = {startInactivityTimer, timeoutHandle}

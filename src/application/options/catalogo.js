@@ -1,4 +1,6 @@
-const { stages } = require(`../gerenciator/chatstage`);
+const { stages, chatStage, check } = require(`../gerenciator/chatstage`);
+const { help } = require("../interaction/help");
+const { clameSuport } = require("../interaction/suporte");
 
 async function responderComCatalogo(message, client) {
     // Itera sobre cada usuário no objeto stages
@@ -46,23 +48,30 @@ async function responderComCatalogo(message, client) {
 async function nextMsg(message, client, userStage) {
 
         if (userStage.fase === 'nextCat') {
-            if (message.body === '1') {
-                client.sendMessage(message.from, `teste1`)
+            if (message.body === '1' && userStage.fase === 'nextCat') {
+                client.sendMessage(message.from, `Aguarde um momento, estamos contanto um atendente para processar o seu pedido.`)
+                stageNow = 'atendimento'
+                check(message, stageNow);
+                clameSuport(message, client, null, stageNow);
+                // Fazer verificação de caso cliente queira sair desse estágio.
             } else
-            if (message.body === '2') {
-                client.sendMessage(message.from, `teste2`)
+            if (message.body === '2' && userStage.fase === 'nextCat') {
+                client.sendMessage(message.from, `Aguarde um momento, estamos contanto um atendente para lhe dar mais informações.`)
+                stageNow = 'informacao'
+                check(message, stageNow);
+                clameSuport(message, client, null, stageNow);
+                // Fazer verificação de caso cliente queira sair desse estágio.
             } else
-            if (message.body === '3') {
+            if (message.body === '3' && userStage.fase === 'nextCat') {
                 await client.sendMessage(message.from, `Retornando ao menu.`)
-                Object.values(stages).forEach(userStage =>{
-                    if (userStage.user === message.from) {
-                        userStage.fase = 'menu_start'
-                    }
-                })
-                console.log('usuário movido para o estágio menu.')
+                stageNow = 'menu_start';
+                check(message, stageNow);
+                console.log('[catalogo] usuário movido para o estágio: ', stageNow);
                 await client.sendMessage(message.from, 'Para seguir com seu atendimento, por favor, responda com o número das opções abaixo: 🔽\n1️⃣. Catálogo 👗👙👘🩱\n2️⃣. Novidades 🔄\n3️⃣. Parceria 🤝\n4️⃣. Suporte 🧑‍💻⚠️\n5️⃣. Falar com atendente 👩‍💻📞');
             } else {
                 client.sendMessage(message.from, `Opção inválida. Digite 1, 2 ou 3 para selecionar uma opção`);
+                stageNow = 'informacao';
+                help(message, client, stageNow);
             }
         }
 }

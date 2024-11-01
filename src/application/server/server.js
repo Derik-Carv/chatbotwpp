@@ -22,11 +22,11 @@ app.use(express.json());
 
 app.post('/', (req, res) => {
     ligar = req.body.ligar;
-    console.log('Dados recebidos do frontend:', ligar);
+    console.log('[server] Dados recebidos do frontend:', ligar);
     if (ligar) {
-        console.log('Bot foi ligado.');
+        console.log('[server] Bot foi ligado.');
     } else {
-        console.log('Bot foi desligado.');
+        console.log('[server] Bot foi desligado.');
     }
     res.json({ message: ligar ? 'Bot Ligado!' : 'Bot Desligado!' });
 });
@@ -45,7 +45,7 @@ function server() {
             if (error) {
                 return reject(error);
             }
-            console.log(`http server rodando... \n url: http://localhost:5558/ \n`);
+            console.log(`[server] http server rodando...\n[server] url: http://localhost:5558/ \n`);
             resolve();
         });
     });

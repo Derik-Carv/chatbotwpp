@@ -3,6 +3,7 @@ async function start() {
     const { Client, LocalAuth } = require('whatsapp-web.js') ; // biblioteca wppwebjs
     const {startInactivityTimer, timeoutHandle} = require('../interaction/inatividade.js'); // IMPORTANDO A FUNÇÃO DE DETECTAR INATIVIDADE
     const { reply } = require('../options/reply.js')
+    
 
     const data = new Date()
 
@@ -12,17 +13,16 @@ async function start() {
 
     // EVENTOS DO CLIENTE WHATSAPP
     client.on('ready', () => {
-        console.log('Client is ready!');
+        console.log('[start] Client is ready!');
     });
 
     client.on('qr', qr => {
         qrcode.generate(qr, { small: true });
-        console.log('QR Code is ready!'); // CONFIRMA QUE O QRCODE SERÁ GERADO
+        console.log('[start] QR Code is ready!'); // CONFIRMA QUE O QRCODE SERÁ GERADO
     });
 
     client.on('message_create', async (message) => {
         console.log(message.body); // EXIBE AS MENSAGENS NO TERMINAL
-        console.log(message.type)
         
         if (message.from === client.info.wid._serialized) { // IGNORA MENSAGENS DO BOT
             return;
@@ -34,14 +34,14 @@ async function start() {
 
         // REINICIA O TEMPORIZADOR DE INATIVIDADE SEMPRE QUE O USUÁRIO ENVIA UMA MENSAGEM VÁLIDA
         startInactivityTimer(message, client);
-        
+
         reply(message, client);
     });
-
+    
     // INICIALIZA O CLIENTE WHATSAPP
     client.initialize();
 }
 
-
+//start();
 
 module.exports = { start }

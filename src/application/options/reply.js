@@ -77,9 +77,9 @@ async function atendimentoInicial(message, client) {
             client.sendMessage(message.from, 'Para seguir com seu atendimento, por favor, responda com o número das opções abaixo: 🔽\n1️⃣. Catálogo 👗👙👘🩱\n2️⃣. Novidades 🔄\n3️⃣. Parceria 🤝\n4️⃣. Suporte 🧑‍💻⚠️\n5️⃣. Falar com atendente 👩‍💻📞');
         }
     } catch (error) {
-        console.error('Erro ao enviar mensagem citada:', error.message);
+        console.error('[reply] Erro ao enviar mensagem citada:', error.message);
         // Envie uma mensagem sem citação como fallback
-        await console.error(`ERRO AO INICIAR ATENDIMENTO. CONFIRA O CACHE!`)
+        await console.error(`[reply] ERRO AO INICIAR ATENDIMENTO. CONFIRA O CACHE!`)
     }
 
 }

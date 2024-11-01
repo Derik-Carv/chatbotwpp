@@ -9,23 +9,29 @@ class Stage {
 // Objeto para armazenar os estágios dos usuários
 const stages = {};
 
-async function chatStage(message, userId) {
+async function chatStage(message, userId, stageNow) {
     // Verifica se já existe um estágio para o usuário
     let userStage = stages[userId];
-
+    
     // Se não existir, cria um novo estágio para o usuário
     if (!userStage) {
         userStage = new Stage(userId, `menu_start`); // Usando a classe Stage
         stages[userId] = userStage; // Armazena no objeto
-        console.log(`Estágio inicializado para o usuário ${userId}: ${userStage.fase}`);
+        console.log(`[chatstage] Estágio inicializado para o usuário ${userId}: ${userStage.fase}`);
     }
-
-    // Log para verificar se o usuário não é o atual
-    Object.keys(stages).forEach(item => {
-        if (item !== userId) {
-            console.log(`Usuário ${item} não é o usuário atual.`);
-        }
-    });
+    
+    console.log(`[chatstage] ${stageNow}`);
 }
 
-module.exports = { chatStage, Stage, stages };
+async function check(message, stageNow) {
+    console.log('[check]', stageNow)
+    Object.values(stages).forEach(userStage => {
+        if (userStage.user === message.from) {
+            userStage.fase = stageNow
+            console.log(`[chatstage] user movido para ${stageNow}`)
+            return userStage.fase
+        }
+    })
+}
+
+module.exports = { chatStage, Stage, stages, check };

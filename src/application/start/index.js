@@ -1,5 +1,5 @@
-const { userId } = require('../options/reply');
 const { server, getLigar } = require('../server/server');
+//const { restartScript } = require('./reset');
 const { verifyOn } = require('./verifyOn');
 let ligar = false;
 
@@ -13,7 +13,8 @@ async function init() {
         console.log(`Valor de getLigar(): ${getLigar()}`); // Isso exibirá o valor atual de 'ligar'
         verifyOn(ligar);
     } catch (error) {
-        console.error('Erro ao iniciar o servidor ou o cliente:', error);
+        console.error('[init] Erro ao iniciar o servidor ou o cliente:', error);
+        //restartScript();
     }
 }
 

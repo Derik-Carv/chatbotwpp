@@ -1,6 +1,7 @@
 const { exec } = require('child_process');
 
 function restartScript() {
+    console.log('[reset] in use');
     exec('node seuScript.js', (error, stdout, stderr) => {
         if (error) {
             console.error(`[reset] Erro ao reiniciar o script: ${error.message}`);

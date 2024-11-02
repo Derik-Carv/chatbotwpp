@@ -1,3 +1,5 @@
+const { check } = require("../gerenciator/chatstage");
+
 async function clameSuport(a, client, responseNew, stageNow) { // FUNÇÃO QUE INICIA A CHAMADA AO ATENDIMENTO.
     // NÚMERO PARA ENVIAR A MENSAGEM (FORMATO INTERNACIONAL)
     const phoneNumberDerik = '559188502326';  // Substitua pelo número desejado
@@ -9,7 +11,7 @@ async function clameSuport(a, client, responseNew, stageNow) { // FUNÇÃO QUE I
     const messagePedido = `COMPRA SOLICITADA! Temos um novo pedido solicitado!.`
     const messageHelp = `CLIENTE PRECISA DE AJUDA. URGENTE! \n Cliente está tendo dificuldade em entender a forma de atendimento.`
 
-    console.log('[suporte]', stageNow)
+    console.log('[suporte] in use', stageNow)
 
     if(a.body === `4`) {
          // Função para enviar a mensagem
@@ -26,6 +28,8 @@ async function clameSuport(a, client, responseNew, stageNow) { // FUNÇÃO QUE I
         if ((a.body && a.body.match(/\binformar\b/i)) || stageNow === 'informacao') {
         await client.sendMessage(`${phoneNumberDerik}@c.us`, messageSite)
         await client.sendMessage(`${phoneNumberHelen}@c.us`, messageSite)
+        stageNow = 'humanControl'
+        check(a, stageNow)
     }
     else
         if (responseNew === true) {
@@ -36,6 +40,8 @@ async function clameSuport(a, client, responseNew, stageNow) { // FUNÇÃO QUE I
         if ((a.body && a.body.match(/\bencomenda\b/i)) || stageNow === 'atendimento') {
         await client.sendMessage(`${phoneNumberDerik}@c.us`, messageEncomenda)
         await client.sendMessage(`${phoneNumberHelen}@c.us`, messageEncomenda)
+        stageNow = 'humanControl'
+        check(a, stageNow)
     } else 
         if (a.body && a.body.match(/\bpedido\b.*\bno\b.*\bseu\b.\bsite\b/i)) {
         await client.sendMessage(`${phoneNumberDerik}@c.us`, messagePedido)

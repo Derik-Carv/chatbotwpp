@@ -6,8 +6,9 @@ const { stages } = require('../gerenciator/chatstage')
 function options(message, client, url) {
 
         Object.values(stages).forEach(userStage => {
+            console.log('[options] in use');
 
-            const condition = message.from === userStage.user && userStage.fase === 'menu_start' && userStage.fase != 'nextCat';
+            const condition = message.from === userStage.user && userStage.fase === 'menu_start' && userStage.fase != 'nextCat' && userStage.fase != 'atendimento' && userStage.fase !='informacao' && userStage.fase != 'humanControl';
 
             if (message.body === '1' && condition) {
                 responderComCatalogo(message, client);

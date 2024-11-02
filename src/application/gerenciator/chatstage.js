@@ -10,6 +10,7 @@ class Stage {
 const stages = {};
 
 async function chatStage(message, userId, stageNow) {
+    console.log('[chatstage] in use');
     // Verifica se já existe um estágio para o usuário
     let userStage = stages[userId];
     
@@ -24,6 +25,7 @@ async function chatStage(message, userId, stageNow) {
 }
 
 async function check(message, stageNow) {
+    console.log('[check] in use');
     console.log('[check]', stageNow)
     Object.values(stages).forEach(userStage => {
         if (userStage.user === message.from) {

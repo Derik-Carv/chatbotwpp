@@ -29,6 +29,7 @@ let human = false;
 const ignoreNow = new IgnoreList();
 
 async function humanControl(message, client) {
+    console.log('[ignoreList] in use');
     console.log('[ignoreList] verificando se usuário já está listado como ignorado...')
     const user = message.from;
     console.log('[ignoreList] ', ignoreNow.listUsers().includes(user), 'list')
@@ -58,4 +59,4 @@ async function humanControl(message, client) {
     }
 }
 
-module.exports = { humanControl };
+module.exports = { humanControl, IgnoreList};

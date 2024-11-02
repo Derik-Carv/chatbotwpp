@@ -5,6 +5,7 @@ const { clameSuport } = require("../interaction/suporte");
 async function responderComCatalogo(message, client) {
     // Itera sobre cada usuário no objeto stages
     Object.values(stages).forEach(userStage => {
+        console.log('[catalogo] in use');
         // Verifica se o usuário e o estágio estão corretos
         if (userStage.user === message.from && userStage.fase === 'menu_start') {
             userStage.fase = 'catalogo';
@@ -46,6 +47,7 @@ async function responderComCatalogo(message, client) {
 
 // Submenu para opções pós catalogo
 async function nextMsg(message, client, userStage) {
+        console.log('[nextMsg] in use');
 
         if (userStage.fase === 'nextCat') {
             if (message.body === '1' && userStage.fase === 'nextCat') {

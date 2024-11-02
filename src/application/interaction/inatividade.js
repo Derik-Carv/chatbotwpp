@@ -6,7 +6,7 @@ let timeoutHandle = null; // TEMPORIZADOR GLOBAL PARA DETECTAR INATIVIDADE
 const url = `https://derik-carv.github.io/entrelacos/`;  // CASO QUEIRA ADICIONAR UM SITE, COLOCA O LINK AQUI.
 
 async function startInactivityTimer (message, client) {
-
+    console.log('[inatividade] in use');
 
     
     // LIMPA O TEMPORIZADOR ANTERIOR (SE EXISTIR)

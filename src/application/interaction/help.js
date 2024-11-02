@@ -9,6 +9,7 @@ mensagemAnterior = [
 ]
 
 async function help(message, client, stageNow) {
+    console.log('[help] in use');
     if (!stageNow) {
         if (Boolean(mensagemAtual === '') === true) {
         await client.sendMessage(message.from, `Para o atendimento automático, utilize mensagem por escrito! ✍️📝`)

@@ -4,6 +4,7 @@ const { verifyOn } = require('./verifyOn');
 let ligar = false;
 
 async function init() {
+    console.log('[index] in use');
     try {
         await server(); // Aguardar o servidor ser iniciado
         const response = await fetch('http://localhost:5558/status');

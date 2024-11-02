@@ -4,6 +4,7 @@ async function start() {
     const {startInactivityTimer, timeoutHandle} = require('../interaction/inatividade.js'); // IMPORTANDO A FUNÇÃO DE DETECTAR INATIVIDADE
     const { reply } = require('../options/reply.js')
     
+    console.log('[start] in use');
 
     const data = new Date()
 

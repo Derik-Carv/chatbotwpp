@@ -5,7 +5,7 @@ const { getLigar } = require('../server/server');
 // Adicionar um intervalo para verificar continuamente o estado de 'ligar'
 async function verifyOn(ligar) {
     setInterval(async () => {
-        
+        console.log('[verifyOn] in use');
         try {
             const response = await fetch('http://localhost:5558/status');
             const data = await response.json();

@@ -5,7 +5,7 @@ const { start } = require('../start/start.js');
 const { chatStage, stages } = require('../gerenciator/chatstage.js');
 const { nextMsg } = require('../options/catalogo.js');
 const { IgnoreList } = require('../interaction/ignorelist.js');
-const hours = new Date()
+const data = new Date();
 
 const url = `https://derik-carv.github.io/entrelacos/`;  // CASO QUEIRA ADICIONAR UM SITE, COLOCA O LINK AQUI.
 
@@ -18,7 +18,9 @@ async function reply(message, client) {
 
     const userId = message.from;
 
-    if (hours.getHours() >= 8 && hours.getHours() <= 18) {
+    console.log(data.getDay())
+
+    if (data.getHours() >= 8 && data.getHours() <= 18 && data.getDay() != 0) {
 
         // Chama a função chatStage para verificar e atualizar o estágio do usuário
         await chatStage(message, userId);

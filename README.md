@@ -124,5 +124,3 @@ npm install whatsapp-web.js@1.26.0
 ```
 npm install wwebjs-mongo@1.1.0
 ```
-
-## Na primei

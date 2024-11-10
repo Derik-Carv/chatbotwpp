@@ -68,6 +68,32 @@ node -v
 npm -v
 ```
 
+Caso npm não esteja com autorização de ser utilizado, faça:
+
+Abre o Windows PowerSHell como Administrador e execute:
+
+```
+Get-ExecutionPolicy
+```
+Irá retornar um desses valores:
+
+Restricted: Não permite a execução de scripts.
+AllSigned: Permite apenas scripts assinados por um editor confiável.
+RemoteSigned: Permite scripts locais, mas requer assinatura para scripts baixados da internet.
+Unrestricted: Permite a execução de todos os scripts.
+
+Altere para:
+
+```
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+E então teste:
+
+```
+npm -v
+```
+
 
 ## Controle de versão
 
@@ -98,3 +124,5 @@ npm install whatsapp-web.js@1.26.0
 ```
 npm install wwebjs-mongo@1.1.0
 ```
+
+## Na primei

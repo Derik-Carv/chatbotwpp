@@ -5,6 +5,7 @@ const { start } = require('../start/start.js');
 const { chatStage, stages } = require('../gerenciator/chatstage.js');
 const { nextMsg } = require('../options/catalogo.js');
 const { IgnoreList } = require('../interaction/ignorelist.js');
+const hours = new Date()
 
 const url = `https://derik-carv.github.io/entrelacos/`;  // CASO QUEIRA ADICIONAR UM SITE, COLOCA O LINK AQUI.
 
@@ -17,50 +18,55 @@ async function reply(message, client) {
 
     const userId = message.from;
 
+    if (hours.getHours() >= 8 && hours.getHours() <= 18) {
 
-    // Chama a função chatStage para verificar e atualizar o estágio do usuário
-    await chatStage(message, userId);
+        // Chama a função chatStage para verificar e atualizar o estágio do usuário
+        await chatStage(message, userId);
 
-    // Chamando Submenu do catalogo
-    Object.values(stages).forEach(userStage => {
-        const condition = userStage.fase != `nextcat` && userStage != `catalogo` && userStage.fase != `humanControl`
+        // Chamando Submenu do catalogo
+        Object.values(stages).forEach(userStage => {
+            const condition = userStage.fase != `nextcat` && userStage != `catalogo` && userStage.fase != `humanControl`
 
-        if (userStage.fase === 'nextCat') { // Se o user estiver no sub menu do catalogo
-            nextMsg(message, client, userStage);
-        }
-            if (userStage.fase === 'humanControl') { // Se está com o estágio de controle humano
-                const ignore = new IgnoreList;
-                ignore.addUser(message.from) // adiciona o usário na lista de ignorados
-                console.log(`${message.from} entrou na lista de ignorados`); // Resposta em console para confirmar user ignorado
-        } else  // Mensagens vinda de encomenda do site
-            if (encomenda.test(message.body) && condition) {
-                clameSuport(message, client);
-        } 
-        else // Mensagebs de pedido vindas do site
-            if (pedido.test(message.body) && condition) {
-                client.sendMessage(message.from, `Pedido recebido ✅, envie o comprovante de pagamento🧾, que logo o seu pedido será entregue 🛵💨.`);
-                clameSuport(message, client);
-        }
-        else  // Mensagens para entrar em contato vindas do site
-            if (informar.test(message.body) && condition) {
-                client.sendMessage(message.from, `Aguarde enquanto chamamos um atendente 💻👩‍💻📞.`);
-                clameSuport(message, client);
-        }
-        else // Inicia o atendimento com a mensagem do cliente
-            if (/\b[\p{L}\p{P}\p{S}]+$\b/u.test(message.body) && condition) {
-                atendimentoInicial(message, client);
-        } 
-        else // Opções de atendimento
-            if (['1', '2', '3', '4', '5'].includes(message.body) && condition) {
-                options(message, client, url);
-        }
-        
-        // Verifica se a mensagem não é do tipo chat
-        if (message.type !== `chat`) {
-                help(message, client);
-        }
+            if (userStage.fase === 'nextCat') { // Se o user estiver no sub menu do catalogo
+                nextMsg(message, client, userStage);
+            }
+                if (userStage.fase === 'humanControl') { // Se está com o estágio de controle humano
+                    const ignore = new IgnoreList;
+                    ignore.addUser(message.from) // adiciona o usário na lista de ignorados
+                    console.log(`${message.from} entrou na lista de ignorados`); // Resposta em console para confirmar user ignorado
+            } else  // Mensagens vinda de encomenda do site
+                if (encomenda.test(message.body) && condition) {
+                    clameSuport(message, client);
+            } 
+            else // Mensagebs de pedido vindas do site
+                if (pedido.test(message.body) && condition) {
+                    client.sendMessage(message.from, `Pedido recebido ✅, envie o comprovante de pagamento🧾, que logo o seu pedido será entregue 🛵💨.`);
+                    clameSuport(message, client);
+            }
+            else  // Mensagens para entrar em contato vindas do site
+                if (informar.test(message.body) && condition) {
+                    client.sendMessage(message.from, `Aguarde enquanto chamamos um atendente 💻👩‍💻📞.`);
+                    clameSuport(message, client);
+            }
+            else // Inicia o atendimento com a mensagem do cliente
+                if (/\b[\p{L}\p{P}\p{S}]+$\b/u.test(message.body) && condition) {
+                    atendimentoInicial(message, client);
+            } 
+            else // Opções de atendimento
+                if (['1', '2', '3', '4', '5'].includes(message.body) && condition) {
+                    options(message, client, url);
+            }
+            
+            // Verifica se a mensagem não é do tipo chat
+            if (message.type !== `chat`) {
+                    help(message, client);
+            }
 
-    })
+        })
+    } else {
+        message.reply(`O período de suporte é de 8h às 18h ⏰🧑‍💻👩‍💻, exceto aos domingos ❌📆. Assim que estivermos disponíveis iremos entrar em contato. Obrigado pelo tempo. 🙌🕐`);
+    }
+    
 }
 
 async function atendimentoInicial(message, client) {

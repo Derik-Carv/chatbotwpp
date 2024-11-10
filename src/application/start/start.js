@@ -15,6 +15,7 @@ async function start() {
     // EVENTOS DO CLIENTE WHATSAPP
     client.on('ready', () => {
         console.log('[start] Client is ready!');
+        console.log('[start] Seu whatsapp empresárial está pronto para uso!');
     });
 
     client.on('qr', qr => {

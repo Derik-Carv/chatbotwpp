@@ -1,24 +1,22 @@
-const { server, getLigar } = require('../server/server');
-//const { restartScript } = require('./reset');
+const { startServer, getLigar } = require('../server/server');
 const { verifyOn } = require('./verifyOn');
 let ligar = false;
 
 async function init() {
     console.log('[index] in use');
     try {
-        await server(); // Aguardar o servidor ser iniciado
+        await startServer(); // Chama a função assíncrona startServer
         const response = await fetch('http://localhost:5558/status');
         const data = await response.json();
         ligar = data.ligar;
-        console.log(`Estado de 'ligar' após inicialização do servidor: ${ligar}`); // Log para verificar o estado de 'ligar'
-        console.log(`Valor de getLigar(): ${getLigar()}`); // Isso exibirá o valor atual de 'ligar'
+        console.log(`[init] Status Command ON do servidor: ${ligar}`);
+        console.log(`[init] comando para ligar chatbot: ${getLigar()}`);
         verifyOn(ligar);
     } catch (error) {
         console.error('[init] Erro ao iniciar o servidor ou o cliente:', error);
-        //restartScript();
     }
 }
 
 init();
 
-module.exports = { init};
+module.exports = { init };

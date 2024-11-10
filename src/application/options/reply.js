@@ -17,11 +17,14 @@ async function reply(message, client) {
 
     const userId = message.from;
 
+
     // Chama a função chatStage para verificar e atualizar o estágio do usuário
     await chatStage(message, userId);
 
     // Chamando Submenu do catalogo
     Object.values(stages).forEach(userStage => {
+        const condition = userStage.fase != `nextcat` && userStage != `catalogo` && userStage.fase != `humanControl`
+
         if (userStage.fase === 'nextCat') { // Se o user estiver no sub menu do catalogo
             nextMsg(message, client, userStage);
         }
@@ -30,25 +33,25 @@ async function reply(message, client) {
                 ignore.addUser(message.from) // adiciona o usário na lista de ignorados
                 console.log(`${message.from} entrou na lista de ignorados`); // Resposta em console para confirmar user ignorado
         } else  // Mensagens vinda de encomenda do site
-            if (encomenda.test(message.body)) {
+            if (encomenda.test(message.body) && condition) {
                 clameSuport(message, client);
         } 
         else // Mensagebs de pedido vindas do site
-            if (pedido.test(message.body)) {
+            if (pedido.test(message.body) && condition) {
                 client.sendMessage(message.from, `Pedido recebido ✅, envie o comprovante de pagamento🧾, que logo o seu pedido será entregue 🛵💨.`);
                 clameSuport(message, client);
         }
         else  // Mensagens para entrar em contato vindas do site
-            if (informar.test(message.body)) {
+            if (informar.test(message.body) && condition) {
                 client.sendMessage(message.from, `Aguarde enquanto chamamos um atendente 💻👩‍💻📞.`);
                 clameSuport(message, client);
         }
         else // Inicia o atendimento com a mensagem do cliente
-            if (/\b[\p{L}\p{P}\p{S}]+$\b/u.test(message.body)) {
+            if (/\b[\p{L}\p{P}\p{S}]+$\b/u.test(message.body) && condition) {
                 atendimentoInicial(message, client);
         } 
         else // Opções de atendimento
-            if (['1', '2', '3', '4', '5'].includes(message.body)) {
+            if (['1', '2', '3', '4', '5'].includes(message.body) && condition) {
                 options(message, client, url);
         }
         

@@ -31,7 +31,6 @@ async function check(message, stageNow) {
         if (userStage.user === message.from) {
             userStage.fase = stageNow
             console.log(`[chatstage] user movido para ${stageNow}`)
-            return userStage.fase
         }
     })
 }

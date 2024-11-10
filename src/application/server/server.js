@@ -1,54 +1,66 @@
 const express = require('express');
 const cors = require('cors');
-const app = express();
-const clientside = 'http://localhost:5570';
+const path = require('path');
 
 let ligar = false;
 
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", clientside);
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-    next();
-});
+const appExpress = express();
 
-app.use(cors({
-    origin: clientside,
-    methods: 'GET, POST, PUT, DELETE, OPTIONS',
+// Permitir arquivos estáticos
+appExpress.use(express.static(path.join(__dirname, '..', '..', '..', 'public', 'app')));
+
+// Configurar CORS
+appExpress.use(cors({
+    origin: '*',
+    methods: 'GET, POST, OPTIONS',
     allowedHeaders: 'Content-Type, Authorization'
 }));
 
-app.use(express.json());
+// Middleware para JSON
+appExpress.use(express.json());
 
-app.post('/', (req, res) => {
-    ligar = req.body.ligar;
-    console.log('[server] Dados recebidos do frontend:', ligar);
-    if (ligar) {
-        console.log('[server] Bot foi ligado.');
-    } else {
-        console.log('[server] Bot foi desligado.');
-    }
-    res.json({ message: ligar ? 'Bot Ligado!' : 'Bot Desligado!' });
+// Rota para a página inicial
+appExpress.get("/", (req, res) => {
+    const filePath = path.join(__dirname, '..', 'app', 'index.html');
+    res.sendFile(filePath);
 });
 
-app.get('/healthcheck', (request, response)=>{
-    response.status(200).send('Server On')
+// Rota para ligar o bot
+appExpress.post('/ligar', (req, res) => {
+    ligar = true;
+    console.log('[server] Bot foi ligado.');
+    res.json({ message: 'Bot Ligado!' });
 });
 
-app.get('/status', (request, response) => {
-    response.json({ ligar });
+// Rota para desligar o bot
+appExpress.post('/desligar', (req, res) => {
+    ligar = false;
+    console.log('[server] Bot foi desligado.');
+    res.json({ message: 'Bot Desligado!' });
 });
 
-function server() {
+// Rota para verificar o status do servidor
+appExpress.get('/healthcheck', (req, res) => {
+    res.status(200).send('Server On');
+    console.log('[server] servidor online.');
+});
+
+// Rota para verificar o status do bot
+appExpress.get('/status', (req, res) => {
+    res.json({ ligar });
+});
+
+// Função para iniciar o servidor
+async function startServer() {
     return new Promise((resolve, reject) => {
-        app.listen(5558, (error) => {
+        appExpress.listen(5558, (error) => {
             if (error) {
                 return reject(error);
             }
-            console.log(`[server] http server rodando...\n[server] url: http://localhost:5558/ \n`);
+            console.log('[server] Servidor rodando em http://localhost:5558/');
             resolve();
         });
     });
 }
 
-module.exports = { server, getLigar: () => ligar, setLigar: (value) => { ligar = value } };
+module.exports = { startServer, getLigar: () => ligar, setLigar: (value) => { ligar = value } };

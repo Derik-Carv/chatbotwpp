@@ -34,12 +34,15 @@ async function responderComCatalogo(message, client) {
                 catalogMessage += `\nProduto: ${item}\nDescrição: ${data.descriptions[index]}\nCores: ${data.colors[index]}\nPreço: ${data.prices[index]}\nTamanhos disponíveis: ${data.sizes[index]}\n\n`;
             });
 
-            const opcCat = `01.Fazer Pedido\n02.Perguntar sobre Produto\n03.Sair`
+            
 
             // Envia a mensagem com o catálogo e opções
             client.sendMessage(message.from, catalogMessage);
-            client.sendMessage(message.from, opcCat);
         }
+
+        const opcCat = `01. Fazer Pedido\n02. Perguntar sobre Produto\n03. Sair`
+        client.sendMessage(message.from, opcCat);
+
         // Muda o estágio para ir para o submenu
         userStage.fase = 'nextCat'
     });

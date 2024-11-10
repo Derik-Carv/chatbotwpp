@@ -54,14 +54,14 @@ async function nextMsg(message, client, userStage) {
 
         if (userStage.fase === 'nextCat') {
             if (message.body === '1' && userStage.fase === 'nextCat') {
-                client.sendMessage(message.from, `Aguarde um momento, estamos contanto um atendente para processar o seu pedido.`)
+                client.sendMessage(message.from, `Aguarde um momento, estamos contatando um atendente para processar o seu pedido.`)
                 stageNow = 'atendimento'
                 check(message, stageNow);
                 clameSuport(message, client, null, stageNow);
                 // Fazer verificação de caso cliente queira sair desse estágio.
             } else
             if (message.body === '2' && userStage.fase === 'nextCat') {
-                client.sendMessage(message.from, `Aguarde um momento, estamos contanto um atendente para lhe dar mais informações.`)
+                client.sendMessage(message.from, `Aguarde um momento, estamos contatando um atendente para lhe dar mais informações.`)
                 stageNow = 'informacao'
                 check(message, stageNow);
                 clameSuport(message, client, null, stageNow);

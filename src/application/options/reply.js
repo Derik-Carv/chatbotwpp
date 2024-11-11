@@ -7,7 +7,7 @@ const { nextMsg } = require('../options/catalogo.js');
 const { IgnoreList } = require('../interaction/ignorelist.js');
 const data = new Date()
 const hours = data.getHours();
-const dayOff = data.getDay();
+const diaSemana = hoje.toLocaleDateString("pt-BR", { weekday: "long" });
 
 const url = `https://derik-carv.github.io/entrelacos/`;  // CASO QUEIRA ADICIONAR UM SITE, COLOCA O LINK AQUI.
 
@@ -20,7 +20,7 @@ async function reply(message, client) {
 
     const userId = message.from;
 
-    if (hours >= 8 && hours <= 18 && dayOff != 0) {
+    if (hours >= 8 && hours <= 18 && diaSemana != `domingo`) {
 
         // Chama a função chatStage para verificar e atualizar o estágio do usuário
         await chatStage(message, userId);

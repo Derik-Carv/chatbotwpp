@@ -20,7 +20,7 @@ async function reply(message, client) {
 
     const userId = message.from;
 
-    if (hours >= 8 && hours <= 18 && diaSemana != `domingo`) {
+    if ((hours > 7 && hours < 19) && diaSemana != `domingo`) {
 
         // Chama a função chatStage para verificar e atualizar o estágio do usuário
         await chatStage(message, userId);
@@ -102,4 +102,4 @@ async function atendimentoInicial(message, client) {
 
 }
 
-module.exports = { reply};
+module.exports = { reply, hours, diaSemana };

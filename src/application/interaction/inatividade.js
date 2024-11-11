@@ -1,37 +1,38 @@
 const { chatStage, stages } = require("../gerenciator/chatstage");
+const { hours, diaSemana } = require('../options/reply')
 
 let timeoutHandle = null; // TEMPORIZADOR GLOBAL PARA DETECTAR INATIVIDADE
 // FUNÇÃO QUE REINICIA O ATENDIMENTO APÓS 10 MINUTOS DE INATIVIDADE
 
-const url = `https://derik-carv.github.io/entrelacos/`;  // CASO QUEIRA ADICIONAR UM SITE, COLOCA O LINK AQUI.
-
 async function startInactivityTimer (message, client) {
     console.log('[inatividade] in use');
 
+    if ((hours > 7 && hours < 19) && diaSemana != `domingo`) {
     
-    // LIMPA O TEMPORIZADOR ANTERIOR (SE EXISTIR)
-    if (timeoutHandle) {
-        clearTimeout(timeoutHandle);
+        // LIMPA O TEMPORIZADOR ANTERIOR (SE EXISTIR)
+        if (timeoutHandle) {
+            clearTimeout(timeoutHandle);
+        }
+
+        // DEFINE UM NOVO TEMPORIZADOR DE 10 MINUTOS (600000MS)
+        timeoutHandle = setTimeout(() => {
+            client.sendMessage(message.from, 'Você ficou inativo por 10 minutos. Iniciando atendimento novamente.');
+            
+            // Envia mensagem de opções novamente.
+                    client.sendMessage(message.from, 'Para seguir com seu atendimento, por favor, responda com o número das opções abaixo: \n1. Catálogo\n2. Novidades\n3. Parceria\n4. Suporte.\n5. Falar com atendente');
+
+            
+            // Mudando estágio de atendimento para inatividade
+            userId = message.from;
+            chatStage(message, userId);
+            Object.values(stages).forEach(userStage =>{
+                if (message.from === userStage.user) {
+                    userStage.fase = 'inative'
+                    console.log(`[inatividade] mudando estágio de atendimento para ${userStage.fase}`)
+                }
+            })
+        }, 600000); // 10 MINUTOS EM MILISSEGUNDOS
     }
-
-    // DEFINE UM NOVO TEMPORIZADOR DE 10 MINUTOS (600000MS)
-    timeoutHandle = setTimeout(() => {
-        client.sendMessage(message.from, 'Você ficou inativo por 10 minutos. Iniciando atendimento novamente.');
-        
-        // Envia mensagem de opções novamente.
-                client.sendMessage(message.from, 'Para seguir com seu atendimento, por favor, responda com o número das opções abaixo: \n1. Catálogo\n2. Novidades\n3. Parceria\n4. Suporte.\n5. Falar com atendente');
-
-        
-        // Mudando estágio de atendimento para inatividade
-        userId = message.from;
-        chatStage(message, userId);
-        Object.values(stages).forEach(userStage =>{
-            if (message.from === userStage.user) {
-                userStage.fase = 'inative'
-                console.log(`[inatividade] mudando estágio de atendimento para ${userStage.fase}`)
-            }
-        })
-    }, 600000); // 10 MINUTOS EM MILISSEGUNDOS
 };
 
 module.exports = {startInactivityTimer, timeoutHandle}

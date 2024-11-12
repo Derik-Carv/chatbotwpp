@@ -20,14 +20,14 @@ async function reply(message, client) {
 
     const userId = message.from;
 
-    if ((hours > 7 && hours < 19) && diaSemana != `domingo`) {
+    //if ((hours > 7 && hours < 19) && diaSemana != `domingo`) {
 
         // Chama a função chatStage para verificar e atualizar o estágio do usuário
         await chatStage(message, userId);
 
         // Chamando Submenu do catalogo
         Object.values(stages).forEach(userStage => {
-            const condition = userStage.fase != `nextcat` && userStage != `catalogo` && userStage.fase != `humanControl`
+            const condition = userStage.fase != `nextcat` && userStage != `catalogo` && userStage.fase != `humanControl` && message.isStatus != true
 
             if (userStage.fase === 'nextCat') { // Se o user estiver no sub menu do catalogo
                 nextMsg(message, client, userStage);
@@ -65,9 +65,9 @@ async function reply(message, client) {
             }
 
         })
-    } else {
-        message.reply(`O período de suporte é de 8h às 18h ⏰🧑‍💻👩‍💻, exceto aos domingos ❌📆. Assim que estivermos disponíveis iremos entrar em contato. Obrigado pelo tempo. 🙌🕐`);
-    }
+    // } else {
+    //     message.reply(`O período de suporte é de 8h às 18h ⏰🧑‍💻👩‍💻, exceto aos domingos ❌📆. Assim que estivermos disponíveis iremos entrar em contato. Obrigado pelo tempo. 🙌🕐`);
+    // }
     
 }
 

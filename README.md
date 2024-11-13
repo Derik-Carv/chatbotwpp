@@ -101,7 +101,7 @@ Utilize o nvm para instalar as dependencias.
 para rodar o projeto e testes é preciso instalar estas versões:
 
 ```
-nvm install node@v20.13.1
+npm install node@v20.13.1
 ```
 ```
 npm install cors@2.8.5

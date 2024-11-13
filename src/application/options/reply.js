@@ -5,9 +5,10 @@ const { start } = require('../start/start.js');
 const { chatStage, stages } = require('../gerenciator/chatstage.js');
 const { nextMsg } = require('../options/catalogo.js');
 const { IgnoreList } = require('../interaction/ignorelist.js');
-const data = new Date()
+const data = new Date();
 const hours = data.getHours();
-const diaSemana = hoje.toLocaleDateString("pt-BR", { weekday: "long" });
+const diaSemana = data.toLocaleDateString("pt-BR", { weekday: "long" });
+
 
 const url = `https://derik-carv.github.io/entrelacos/`;  // CASO QUEIRA ADICIONAR UM SITE, COLOCA O LINK AQUI.
 
@@ -18,9 +19,9 @@ async function reply(message, client) {
     const informar = /\binformar\b/i;
     const pedido = /\bpedido\b.*\bno\b.*\bseu\b.\bsite\b/i;
 
-    const userId = message.from;
+    const userId = message.from
 
-    //if ((hours > 7 && hours < 19) && diaSemana != `domingo`) {
+    //if ((hours > 7 || hours < 19) && diaSemana != `domingo`) {
 
         // Chama a função chatStage para verificar e atualizar o estágio do usuário
         await chatStage(message, userId);
@@ -65,10 +66,10 @@ async function reply(message, client) {
             }
 
         })
-    // } else {
-    //     message.reply(`O período de suporte é de 8h às 18h ⏰🧑‍💻👩‍💻, exceto aos domingos ❌📆. Assim que estivermos disponíveis iremos entrar em contato. Obrigado pelo tempo. 🙌🕐`);
-    // }
-    
+    //} 
+    //else {
+    //    message.reply(`O período de suporte é de 8h às 18h ⏰🧑‍💻👩‍💻, exceto aos domingos ❌📆. Assim que estivermos disponíveis iremos entrar em contato. Obrigado pelo tempo. 🙌🕐`)
+    //}
 }
 
 async function atendimentoInicial(message, client) {
@@ -89,11 +90,10 @@ async function atendimentoInicial(message, client) {
     try {
         // AGUARDA O ENVIO DA RESPOSTA E DEPOIS O ENVIO DAS OPÇÕES
         await message.reply('Seja bem-vindo à Entrelaços Crochê 🧶. Aqui temos várias peças de crochê feitas à mão 🛠️. Você pode ver mais opções no nosso site 🌐: ' + url);
-        await selecao(message, client);
-        
         function selecao(message, client) {
             client.sendMessage(message.from, 'Para seguir com seu atendimento, por favor, responda com o número das opções abaixo: 🔽\n1️⃣. Catálogo 👗👙👘🩱\n2️⃣. Novidades 🔄\n3️⃣. Parceria 🤝\n4️⃣. Suporte 🧑‍💻⚠️\n5️⃣. Falar com atendente 👩‍💻📞');
         }
+        selecao(message, client);
     } catch (error) {
         console.error('[reply] Erro ao enviar mensagem citada:', error.message);
         // Envie uma mensagem sem citação como fallback
@@ -102,4 +102,4 @@ async function atendimentoInicial(message, client) {
 
 }
 
-module.exports = { reply, hours, diaSemana };
+module.exports = { reply, hours, diaSemana};

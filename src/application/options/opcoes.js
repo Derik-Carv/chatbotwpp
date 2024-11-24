@@ -20,12 +20,12 @@ function options(message, client, url) {
                 client.sendMessage(message.from, `Este é o nosso e-mail de contato profissional 📧: entrelacoscrochehp@gmail.com 🧶\nInstagram 📸: https://www.instagram.com/crochentrelacos/ 🧶`);
             } else 
             if (message.body === '4' && condition) {
-                client.sendMessage(message.from, 'O período de suporte é de 8h às 18h ⏰🧑‍💻👩‍💻, exceto aos domingos ❌📆. Aguarde, que estamos contatando um atendente. Obrigado pelo tempo. 🙌🕐');
+                client.sendMessage(message.from, 'O período de suporte é de 8h às 21h ⏰🧑‍💻👩‍💻, exceto aos domingos ❌📆. Aguarde, que estamos contatando um atendente. Obrigado pelo tempo. 🙌🕐');
                 clameSuport(message, client);
                 humanControl(message, client);
             } else 
             if (message.body === '5' && condition) {
-                client.sendMessage(message.from, 'O período de atendimento é de 8h às 18h ⏰🧑‍💻👩‍💻, exceto aos domingos ❌📆.');
+                client.sendMessage(message.from, 'O período de atendimento é de 8h às 21h ⏰🧑‍💻👩‍💻, exceto aos domingos ❌📆.');
                 clameSuport(message, client);
                 humanControl(message, client);
             }

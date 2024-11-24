@@ -1,5 +1,15 @@
 const API_URL = 'http://localhost:5558';
 
+const btnOn = document.querySelector('#botOn');
+btnOn.addEventListener('click', () => {
+    console.log('click automático');
+});
+
+setTimeout(() => {
+    btnOn.click();
+}, 1000);
+
+
 // Função para ligar/desligar o bot
 async function toggleBot(ligar) {
     try {
@@ -42,7 +52,7 @@ document.querySelector('#botOn').addEventListener('click', () => toggleBot(true)
 document.querySelector('#botOff').addEventListener('click', () => toggleBot(false));
 
 // Verificar o status do servidor a cada 5 segundos
-setInterval(checkServerStatus, 5000);
+setInterval(checkServerStatus, 3000);
 
 // Verificar o status do servidor ao carregar a página
 checkServerStatus();

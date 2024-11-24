@@ -1,6 +1,7 @@
 const { startServer, getLigar } = require('../server/server');
 const { verifyOn } = require('./verifyOn');
-let ligar = false;
+
+ligar = false;
 
 async function init() {
     console.log('[index] in use');

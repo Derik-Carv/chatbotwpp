@@ -2,7 +2,7 @@ const { options } = require('../options/opcoes.js');
 const { clameSuport } = require('../interaction/suporte.js');
 const { help } = require('../interaction/help.js');
 const { start } = require('../start/start.js');
-const { chatStage, stages } = require('../gerenciator/chatstage.js');
+const { chatStage, stages, check } = require('../gerenciator/chatstage.js');
 const { nextMsg } = require('../options/catalogo.js');
 const { IgnoreList } = require('../interaction/ignorelist.js');
 const data = new Date();
@@ -27,8 +27,10 @@ async function reply(message, client) {
         await chatStage(message, userId);
 
         // Chamando Submenu do catalogo
-        Object.values(stages).forEach(userStage => {
-            const condition = userStage.fase != `nextcat` && userStage != `catalogo` && userStage.fase != `humanControl` && message.isStatus != true
+        Object.values(stages).forEach(userStage => {            
+
+            console.log('[reply] chatstage: ', userStage)
+            const condition = userStage.fase != `nextcat` && userStage != `catalogo` && userStage.fase != `humanControl` && message.isStatus != true;
 
             if (userStage.fase === 'nextCat') { // Se o user estiver no sub menu do catalogo
                 nextMsg(message, client, userStage);
@@ -53,7 +55,7 @@ async function reply(message, client) {
             }
             else // Inicia o atendimento com a mensagem do cliente
                 if (/\b[\p{L}\p{P}\p{S}]+$\b/u.test(message.body) && condition) {
-                    atendimentoInicial(message, client);
+                    atendimentoInicial(message, client);   
             } 
             else // Opções de atendimento
                 if (['1', '2', '3', '4', '5'].includes(message.body) && condition) {
@@ -61,15 +63,11 @@ async function reply(message, client) {
             }
             
             // Verifica se a mensagem não é do tipo chat
-            if (message.type !== `chat`) {
+            if (message.type !== `chat` && message.isStatus != true) {
                     help(message, client);
             }
 
         })
-    //} 
-    //else {
-    //    message.reply(`O período de suporte é de 8h às 18h ⏰🧑‍💻👩‍💻, exceto aos domingos ❌📆. Assim que estivermos disponíveis iremos entrar em contato. Obrigado pelo tempo. 🙌🕐`)
-    //}
 }
 
 async function atendimentoInicial(message, client) {
@@ -90,10 +88,16 @@ async function atendimentoInicial(message, client) {
     try {
         // AGUARDA O ENVIO DA RESPOSTA E DEPOIS O ENVIO DAS OPÇÕES
         await message.reply('Seja bem-vindo à Entrelaços Crochê 🧶. Aqui temos várias peças de crochê feitas à mão 🛠️. Você pode ver mais opções no nosso site 🌐: ' + url);
+        //if (hours < 8 || hours >= 21) {
+            //message.reply(`O período de suporte é de 8h às 21h ⏰🧑‍💻👩‍💻, exceto aos domingos ❌📆. Assim que estivermos disponíveis iremos entrar em contato. Obrigado pelo tempo. 🙌🕐`)
+        //} else {
+            await selecao(message, client);
+        //}
+        
         function selecao(message, client) {
             client.sendMessage(message.from, 'Para seguir com seu atendimento, por favor, responda com o número das opções abaixo: 🔽\n1️⃣. Catálogo 👗👙👘🩱\n2️⃣. Novidades 🔄\n3️⃣. Parceria 🤝\n4️⃣. Suporte 🧑‍💻⚠️\n5️⃣. Falar com atendente 👩‍💻📞');
         }
-        selecao(message, client);
+        
     } catch (error) {
         console.error('[reply] Erro ao enviar mensagem citada:', error.message);
         // Envie uma mensagem sem citação como fallback

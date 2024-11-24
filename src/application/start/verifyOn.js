@@ -20,7 +20,7 @@ async function verifyOn(ligar) {
         } catch (fetchError) {
             console.error('[verifyOn] Erro ao tentar buscar o status:', fetchError);
         }
-    }, 3000); // Verifica o estado a cada 3 segundos
+    }, 30000); // Verifica o estado a cada 3 segundos
 }
 
 module.exports = { verifyOn };

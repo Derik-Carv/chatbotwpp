@@ -6,6 +6,7 @@ async function responderComCatalogo(message, client) {
     // Itera sobre cada usuário no objeto stages
     Object.values(stages).forEach(userStage => {
         console.log('[catalogo] in use');
+        console.log('[catalogo] chatstage: ', userStage)
         // Verifica se o usuário e o estágio estão corretos
         if (userStage.user === message.from && userStage.fase === 'menu_start') {
             userStage.fase = 'catalogo';

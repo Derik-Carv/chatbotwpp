@@ -10,18 +10,20 @@ class Stage {
 const stages = {};
 
 async function chatStage(message, userId, stageNow) {
-    console.log('[chatstage] in use');
-    // Verifica se já existe um estágio para o usuário
-    let userStage = stages[userId];
-    
-    // Se não existir, cria um novo estágio para o usuário
-    if (!userStage) {
-        userStage = new Stage(userId, `menu_start`); // Usando a classe Stage
-        stages[userId] = userStage; // Armazena no objeto
-        console.log(`[chatstage] Estágio inicializado para o usuário ${userId}: ${userStage.fase}`);
+    if (userId != '5591987597762@c.us') {
+        console.log('[chatstage] in use');
+        // Verifica se já existe um estágio para o usuário
+        let userStage = stages[userId];
+        
+        // Se não existir, cria um novo estágio para o usuário
+        if (!userStage) {
+            userStage = new Stage(userId, `menu_start`); // Usando a classe Stage
+            stages[userId] = userStage; // Armazena no objeto
+            console.log(`[chatstage] Estágio inicializado para o usuário ${userId}: ${userStage.fase}`);
+        }
+        
+        console.log(`[chatstage] ${stageNow}`);
     }
-    
-    console.log(`[chatstage] ${stageNow}`);
 }
 
 async function check(message, stageNow) {

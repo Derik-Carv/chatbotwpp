@@ -75,26 +75,26 @@ Utilize o nvm para instalar as dependencias.
 para rodar o projeto e testes é preciso instalar estas versões:
 
 ```
-nvm install node@v20.13.1
+npm install node@v20.13.1
 ```
 ```
-nvm install cors@2.8.5
+npm install cors@2.8.5
 ```
 ```
-nvm install ejs@3.1.10
+npm install ejs@3.1.10
 ```
 ```
-nvm install express@4.21.1
+npm install express@4.21.1
 ```
 ```
-nvm install puppeteer@23.1.1
+npm install puppeteer@23.1.1
 ```
 ```
-nvm install qrcode-terminal@0.12.0
+npm install qrcode-terminal@0.12.0
 ```
 ```
-nvm install whatsapp-web.js@1.26.0
+npm install whatsapp-web.js@1.26.0
 ```
 ```
-nvm install wwebjs-mongo@1.1.0
+npm install wwebjs-mongo@1.1.0
 ```

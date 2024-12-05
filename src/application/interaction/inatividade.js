@@ -19,7 +19,7 @@ async function startInactivityTimer (message, client) {
             client.sendMessage(message.from, 'Você ficou inativo por 10 minutos. Iniciando atendimento novamente.');
             
             // Envia mensagem de opções novamente.
-                    client.sendMessage(message.from, 'Para seguir com seu atendimento, por favor, responda com uma mensagem por escrito para retornar ao menu!');
+                    client.sendMessage(message.from, 'Para seguir com seu atendimento, por favor, responda com o mensagem por escrito para retornar ao menu!');
 
             
             // Mudando estágio de atendimento para inatividade
@@ -31,7 +31,7 @@ async function startInactivityTimer (message, client) {
                     console.log(`[inatividade] mudando estágio de atendimento para ${userStage.fase}`)
                 }
             })
-        }, 600000); // 10 MINUTOS EM MILISSEGUNDOS 600000
+        }, 1800000); // 30 MINUTOS EM MILISSEGUNDOS 1800000
     //}
 };
 

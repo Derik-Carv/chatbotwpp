@@ -20,17 +20,22 @@ async function reply(message, client) {
     const pedido = /\bpedido\b.*\bno\b.*\bseu\b.\bsite\b/i;
 
     const userId = message.from
+    const meNumber = '5591987597762@c.us';
 
     //if ((hours > 7 || hours < 19) && diaSemana != `domingo`) {
 
         // Chama a função chatStage para verificar e atualizar o estágio do usuário
         await chatStage(message, userId);
 
+         
+
         // Chamando Submenu do catalogo
-        Object.values(stages).forEach(userStage => {            
+        Object.values(stages).forEach(userStage => {
+            // humando intervem no atendimento
+            console.log('testeeee:' + userStage.fase);
 
             console.log('[reply] chatstage: ', userStage)
-            const condition = userStage.fase != `nextcat` && userStage != `catalogo` && userStage.fase != `humanControl` && message.isStatus != true;
+            const condition = userStage.fase != `nextcat` && userStage.fase != `catalogo` && userStage.fase != `humanControl` && message.isStatus != true;
 
             if (userStage.fase === 'nextCat') { // Se o user estiver no sub menu do catalogo
                 nextMsg(message, client, userStage);
@@ -55,7 +60,9 @@ async function reply(message, client) {
             }
             else // Inicia o atendimento com a mensagem do cliente
                 if (/\b[\p{L}\p{P}\p{S}]+$\b/u.test(message.body) && condition) {
-                    atendimentoInicial(message, client);   
+                    console.log(` dia da semana:  `+diaSemana);
+                    atendimentoInicial(message, client);
+                    
             } 
             else // Opções de atendimento
                 if (['1', '2', '3', '4', '5'].includes(message.body) && condition) {
@@ -71,7 +78,6 @@ async function reply(message, client) {
 }
 
 async function atendimentoInicial(message, client) {
-
     /**
      *  Bug encontrado ao iniciar script no server side:
      *  As vezes pode ser que dê erro -->
@@ -84,26 +90,13 @@ async function atendimentoInicial(message, client) {
         Talvez aplicando limpeza automática de cache resolva o problema.
         O Try catch abaixo foi implementado para indicar a possibilidade deste problema.
      */
+    await client.sendMessage(message.from,'Seja bem-vindo à Entrelaços Crochê 🧶. Aqui temos várias peças de crochê feitas à mão 🛠️. Você pode ver mais opções no nosso site 🌐: ' + url);
 
-    try {
-        // AGUARDA O ENVIO DA RESPOSTA E DEPOIS O ENVIO DAS OPÇÕES
-        await message.reply('Seja bem-vindo à Entrelaços Crochê 🧶. Aqui temos várias peças de crochê feitas à mão 🛠️. Você pode ver mais opções no nosso site 🌐: ' + url);
-        //if (hours < 8 || hours >= 21) {
-            //message.reply(`O período de suporte é de 8h às 21h ⏰🧑‍💻👩‍💻, exceto aos domingos ❌📆. Assim que estivermos disponíveis iremos entrar em contato. Obrigado pelo tempo. 🙌🕐`)
-        //} else {
-            await selecao(message, client);
-        //}
-        
-        function selecao(message, client) {
-            client.sendMessage(message.from, 'Para seguir com seu atendimento, por favor, responda com o número das opções abaixo: 🔽\n1️⃣. Catálogo 👗👙👘🩱\n2️⃣. Novidades 🔄\n3️⃣. Parceria 🤝\n4️⃣. Suporte 🧑‍💻⚠️\n5️⃣. Falar com atendente 👩‍💻📞');
-        }
-        
-    } catch (error) {
-        console.error('[reply] Erro ao enviar mensagem citada:', error.message);
-        // Envie uma mensagem sem citação como fallback
-        await console.error(`[reply] ERRO AO INICIAR ATENDIMENTO. CONFIRA O CACHE!`)
+    if (diaSemana == `domingo`) {
+        await message.reply(`O período de suporte é de 8h às 21h ⏰🧑‍💻👩‍💻, exceto aos domingos ❌📆. Assim que estivermos disponíveis iremos entrar em contato. Obrigado pelo tempo. 🙌🕐`)
+    } else {
+        await client.sendMessage(message.from, 'Para seguir com seu atendimento, por favor, responda com o número das opções abaixo: 🔽\n1️⃣. Catálogo 👗👙👘🩱\n2️⃣. Novidades 🔄\n3️⃣. Parceria 🤝\n4️⃣. Suporte 🧑‍💻⚠️\n5️⃣. Falar com atendente 👩‍💻📞');
     }
-
 }
 
 module.exports = { reply, hours, diaSemana};

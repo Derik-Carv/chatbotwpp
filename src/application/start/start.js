@@ -1,9 +1,10 @@
 async function start() {
     const qrcode = require('qrcode-terminal');
     const { Client, LocalAuth } = require('whatsapp-web.js') ; // biblioteca wppwebjs
-    const {startInactivityTimer, timeoutHandle} = require('../interaction/inatividade.js'); // IMPORTANDO A FUNÇÃO DE DETECTAR INATIVIDADE
+    //const {startInactivityTimer, timeoutHandle} = require('../interaction/inativiti.js'); // IMPORTANDO A FUNÇÃO DE DETECTAR INATIVIDADE
     const { reply } = require('../options/reply.js')
-    const { check, stages} = require('../gerenciator/chatstage.js');
+    // const { check, stages} = require('../gerenciator/chatstage.js');
+    //const { statusServer } = require('../ping/ping.js');
     
     console.log('[start] in use');
 
@@ -25,41 +26,20 @@ async function start() {
     });
 
     client.on('message_create', async (message) => {
-        //console.log(message.body); // EXIBE AS MENSAGENS NO TERMINAL
+        // numero diego : '559182686234@c.us'
+        // numero mateus: '559193460316@c.us'
+        console.log(message.body);
 
-        console.log(`Processing message: ${message.body}, ID: ${message.id.id}`);
+        // if (message.from === client.info.wid._serialized) { // IGNORA MENSAGENS DO BOT
+        //     return;
+        // }
 
-        if (message.from === client.info.wid._serialized) { // IGNORA MENSAGENS DO BOT
-            return;
-        }
-
-        const botInteractive = !stages || Object.keys(stages).length === 0;
-
-        if(botInteractive && !message.fromMe) {
-            startInactivityTimer(message, client);
+        if (message.from == '559187597762@c.us' || message.from == '559182686234@c.us') {
+            console.log(`[start] ` + message.body);
             reply(message, client);
         }
-            Object.values(stages).forEach(userStage=>{
 
-                console.log(`${userStage.user} este user, está no modo: ${userStage.fase}`)
-                console.log('para: ' + message.to)
-    
-                if(message.fromMe === true) {
-                    if (message.body === '!intervir') {
-                        stageNow = 'interview';
-                        let contato = message.to;
-                        check(contato, stageNow);
-                    }
-                    if (message.body === '!encerrar') {
-                        stageNow = 'menu_start';
-                        let contato = message.to;
-                        check(contato, stageNow);
-                    }
-                } else if(!botInteractive) {
-                    startInactivityTimer(message, client);
-                    reply(message, client);
-                }
-            })
+        
         
 
         // EVITAR QUE O BOT RESPONDA A SUAS PRÓPRIAS MENSAGENS. ISSO É FEITO COMPARANDO O ID ÚNICO DO PRÓPRIO BOT NO WHATSAPP (CLIENT.INFO.WID._SERIALIZED) COM O REMETENTE DA MENSAGEM.

@@ -1,14 +1,14 @@
 # chatbotwpp
-Chatbot para whatsapp. Entrelaços Crochê.
+Chatbot de de atendimento via WhatsApp, para o setor de T.I. da Oyamota Brasil S.A.
 
 ## Descrição
 
-este projeto busca atender aos requisitos de atendimento ao cliente básico, de acordo com o contexto da empresa de crochê.
-se atentando a identificar e tratar a dificuldade de clientes que tem dificuldade na interação automática do cliente,
+este projeto busca atender aos requisitos de atendimento à chamados, de acordo com o contexto da empresa de crochê.
+se atentando a identificar e tratar a dificuldade dos colaboradores que tem dificuldade na interação automática do cliente,
 buscando um alarde ao atendimento humano quando necessário.
-quando chegar no ponto do cleinte estar tendo muita diiculdade de atendimento, de inicio será chamado um atendente humano
-para tratar do problemas. futuramente será substituído por uma IA, e em casa de solicitação do cliente ou  extrema 
-dificuldade, ai sim será intervido por um humano que será chamado pelo próprio sistema de atendimento.
+caso chegue ao ponto do colaborador estar tendo muita diiculdade de atendimento, de inicio será chamado um atendente da área de T.I.
+para tratar do problemas. futuramente será substituído por uma IA, e em casa de solicitação da direção ou extrema 
+dificuldade de interação dos colaboradores.
 
 ## Para usuários
 
@@ -16,7 +16,7 @@ NADA AQUI AINDA.
 
 ## Para desenvolvedores
 
-Tenha o node.js instalado no seu pc, use os comandos de instalação abaixo:
+Todas as dependências abaixo são criciais apra o funcionamento do script no seu pc, use os comandos de instalação abaixo:
 
 ## Verificando se o nodejs já está instalado
 
@@ -55,6 +55,8 @@ npm -v
 
 ## Windows
 
+Baixe o instalador no site official do [NodeJs](https://nodejs.org/en).
+
 No PowerShell:
 
 ```
@@ -74,27 +76,32 @@ npm -v
 Utilize o nvm para instalar as dependencias.
 para rodar o projeto e testes é preciso instalar estas versões:
 
+[NodeJs](https://nodejs.org/en)
 ```
 npm install node@v20.13.1
 ```
-```
-npm install cors@2.8.5
-```
+[Biblioteca WwebJs]
 ```
 npm install ejs@3.1.10
-```
-```
-npm install express@4.21.1
-```
-```
-npm install puppeteer@23.1.1
-```
-```
-npm install qrcode-terminal@0.12.0
 ```
 ```
 npm install whatsapp-web.js@1.26.0
 ```
 ```
 npm install wwebjs-mongo@1.1.0
+```
+[Express](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs)
+```
+npm install express@4.21.1
+```
+[QR Code terminal](https://www.npmjs.com/package/qrcode-terminal)
+```
+npm install qrcode-terminal@0.12.0
+```
+
+```
+npm install ping
+```
+```
+npm install xlsx
 ```

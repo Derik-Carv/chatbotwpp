@@ -1,16 +1,16 @@
-const { options } = require('../options/opcoes.js');
+const { options, responseDoubt } = require('../options/options.js');
+const { responderDuvida } = require('./sections/doubt');
 const { clameSuport } = require('../interaction/suporte.js');
 const { help } = require('../interaction/help.js');
-const { start } = require('../start/start.js');
 const { chatStage, stages, check } = require('../gerenciator/chatstage.js');
-const { nextMsg } = require('../options/catalogo.js');
+const { verificarPatrimonio, respPat } = require('../options/sections/pat.js');
+const { nextMsg } = require('./sections/doubt.js');
 const { IgnoreList } = require('../interaction/ignorelist.js');
-const data = new Date();
-const hours = data.getHours();
-const diaSemana = data.toLocaleDateString("pt-BR", { weekday: "long" });
+const { checkingNetwork } = require('./network/checkingNetwork.js');
+const date = new Date();
+const hours = date.getHours();
+const diaSemana = date.toLocaleDateString("pt-BR", { weekday: "long" });
 
-
-const url = `https://derik-carv.github.io/entrelacos/`;  // CASO QUEIRA ADICIONAR UM SITE, COLOCA O LINK AQUI.
 
 async function reply(message, client) {
     console.log('[reply] in use');
@@ -22,25 +22,21 @@ async function reply(message, client) {
     const userId = message.from
     const meNumber = '5591987597762@c.us';
 
+    let mensagem = responseDoubt;
+
     //if ((hours > 7 || hours < 19) && diaSemana != `domingo`) {
 
         // Chama a função chatStage para verificar e atualizar o estágio do usuário
         await chatStage(message, userId);
 
-         
-
         // Chamando Submenu do catalogo
         Object.values(stages).forEach(userStage => {
-            // humando intervem no atendimento
-            console.log('testeeee:' + userStage.fase);
-
+        
             console.log('[reply] chatstage: ', userStage)
-            const condition = userStage.fase != `nextcat` && userStage.fase != `catalogo` && userStage.fase != `humanControl` && message.isStatus != true;
+            const condition = userStage.fase != `humanControl` && message.isStatus != true;
 
-            if (userStage.fase === 'nextCat') { // Se o user estiver no sub menu do catalogo
-                nextMsg(message, client, userStage);
-            }
-                if (userStage.fase === 'humanControl') { // Se está com o estágio de controle humano
+           // humando intervem no atendimento
+            if (userStage.fase === 'humanControl') { // Se está com o estágio de controle humano
                     const ignore = new IgnoreList;
                     ignore.addUser(message.from) // adiciona o usário na lista de ignorados
                     console.log(`${message.from} entrou na lista de ignorados`); // Resposta em console para confirmar user ignorado
@@ -57,18 +53,42 @@ async function reply(message, client) {
                 if (informar.test(message.body) && condition) {
                     client.sendMessage(message.from, `Aguarde enquanto chamamos um atendente 💻👩‍💻📞.`);
                     clameSuport(message, client);
-            }
+            } else
+                if (message.body == '!patrimonio' && condition){
+                    console.log(`[reply] pat check`)
+                    stageNow = `pat`;
+                    check(message, stageNow);
+                    verificarPatrimonio(message);
+                    client.sendMessage(message.from, respPat);
+                    if (userStage.fase == `pat`) {
+                        stageNow = `patSubMenu`;
+                        check(message, stageNow);
+                        console.log(`[reply] entrando no submenu user no estágio: ` + userStage.fase);
+                        //optionsPatSub(message);
+                        //client.sendMessage(message.from, `[teste]teste`);
+                    }
+                } 
             else // Inicia o atendimento com a mensagem do cliente
                 if (/\b[\p{L}\p{P}\p{S}]+$\b/u.test(message.body) && condition) {
                     console.log(` dia da semana:  `+diaSemana);
                     atendimentoInicial(message, client);
                     
-            } 
-            else // Opções de atendimento
-                if (['1', '2', '3', '4', '5'].includes(message.body) && condition) {
-                    options(message, client, url);
             }
-            
+
+            // Opções de atendimento
+            if (['1', '2', '3', '4', '5', '6', '7'].includes(message.body)) {
+                if (userStage.fase == 'doubt'){
+                    responderDuvida(message,client);
+                }
+                if (userStage.fase == 'menu_start') {
+                    options(message, client);
+                }
+                if (userStage.fase == 'checkingNetwork'){
+                    checkingNetwork(message, client);
+                }
+                
+            }
+
             // Verifica se a mensagem não é do tipo chat
             if (message.type !== `chat` && message.isStatus != true) {
                     help(message, client);
@@ -90,13 +110,14 @@ async function atendimentoInicial(message, client) {
         Talvez aplicando limpeza automática de cache resolva o problema.
         O Try catch abaixo foi implementado para indicar a possibilidade deste problema.
      */
-    await client.sendMessage(message.from,'Seja bem-vindo à Entrelaços Crochê 🧶. Aqui temos várias peças de crochê feitas à mão 🛠️. Você pode ver mais opções no nosso site 🌐: ' + url);
+    await client.sendMessage(message.from,`Seja bem-vindo ao canal de suporte e atendimento de T.I. da Oyamota. Estamos disponíveis de 8h às 12h & 13h às 18h, de segunda a sexta!`);
 
-    if (diaSemana == `domingo`) {
-        await message.reply(`O período de suporte é de 8h às 21h ⏰🧑‍💻👩‍💻, exceto aos domingos ❌📆. Assim que estivermos disponíveis iremos entrar em contato. Obrigado pelo tempo. 🙌🕐`)
+    if (diaSemana == `domingo` && diaSemana == `sábado`) {
+        await message.reply(`O período de suporte é de 8h às 18h ⏰🧑‍💻👩‍💻, exceto aos sábados e domingos ❌📆. Você pode enviar um e-mail para ti@oyamota.com.br. Equipe de T.I. Oyamota agradece o contato. 🙌🕐`)
     } else {
-        await client.sendMessage(message.from, 'Para seguir com seu atendimento, por favor, responda com o número das opções abaixo: 🔽\n1️⃣. Catálogo 👗👙👘🩱\n2️⃣. Novidades 🔄\n3️⃣. Parceria 🤝\n4️⃣. Suporte 🧑‍💻⚠️\n5️⃣. Falar com atendente 👩‍💻📞');
+        await client.sendMessage(message.from, `Para seguir com seu atendimento, por favor, responda com o número das opções abaixo: 🔽
+            \n1️⃣. Dúvidas ❓\n2️⃣. Falha em Rede ❌🛜\n3️⃣. Falha em Equipamento ❌🖥️\n4️⃣. Solicitar compra ou troca de material 🛠️🔄\n5️⃣. Solicitações de impressoras 🖨️\n6️⃣. Suporte 🧑‍💻⚠️`);
     }
 }
 
-module.exports = { reply, hours, diaSemana};
+module.exports = { reply, hours, diaSemana, atendimentoInicial};

@@ -5,8 +5,8 @@
   "main": "./src/application/start/index.js",
   "scripts": {
     "start": "node ./src/application/start/index.js",
-    "dev": "node --no-warnings ./src/application/start/index.js",
-    "forever": "forever start ./src/application/start/index.js"
+    "dev": "node --no-warnings --watch ./src/application/start/index.js",
+    "teste": "node --trace-deprecation ./src/application/start/index.js"
   },
   "keywords": [],
   "author": "",
@@ -14,14 +14,16 @@
   "description": "Chatbot para whatsapp. Entrelaços Crochê.",
   "dependencies": {
     "chatbotwpp": "file:",
-    "cors": "^2.8.5",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
+    "node": "^20.13.1",
     "nvm": "^0.0.4",
-    "puppeteer": "^23.1.1",
+    "ping": "^0.4.4",
+    "puppeteer-core": "^23.10.4",
     "qrcode-terminal": "^0.12.0",
     "whatsapp-web.js": "^1.26.0",
-    "wwebjs-mongo": "^1.1.0"
+    "wwebjs-mongo": "^1.1.0",
+    "xlsx": "^0.18.5"
   },
   "engines": {
     "node": ">=14.0.0"

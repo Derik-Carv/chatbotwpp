@@ -3,12 +3,8 @@ async function start() {
     const { Client, LocalAuth } = require('whatsapp-web.js') ; // biblioteca wppwebjs
     //const {startInactivityTimer, timeoutHandle} = require('../interaction/inativiti.js'); // IMPORTANDO A FUNÇÃO DE DETECTAR INATIVIDADE
     const { reply } = require('../options/reply.js')
-    // const { check, stages} = require('../gerenciator/chatstage.js');
-    //const { statusServer } = require('../ping/ping.js');
     
     console.log('[start] in use');
-
-    const data = new Date()
 
     const client = new Client({ // CONFIGURAÇÃO DO CLIENTE WHATSAPP
         authStrategy: new LocalAuth() // ATENÇÃO. ESSA FUNÇÃO IRÁ CRIAR UMA PASTA CHAMADA [.wwebjs_auth]
@@ -28,15 +24,20 @@ async function start() {
     client.on('message_create', async (message) => {
         // numero diego : '559182686234@c.us'
         // numero mateus: '559193460316@c.us'
-        console.log(message.body);
 
-        // if (message.from === client.info.wid._serialized) { // IGNORA MENSAGENS DO BOT
-        //     return;
-        // }
+        if (message.from === client.info.wid._serialized) { // IGNORA MENSAGENS DO BOT
+            return;
+        }
 
         if (message.from == '559187597762@c.us' || message.from == '559182686234@c.us') {
-            console.log(`[start] ` + message.body);
-            reply(message, client);
+            try {
+                console.log(`[start] ` + message.body);
+                reply(message, client);
+            }
+            catch (error) {
+                console.error(`[start] Error in reply function:`, error);
+            }
+           
         }
 
         

@@ -11,15 +11,17 @@ const date = new Date();
 const hours = date.getHours();
 const diaSemana = date.toLocaleDateString("pt-BR", { weekday: "long" });
 
-
 async function reply(message, client) {
     console.log('[reply] in use');
+
+    const autorized = message.from == '559182686234@c.us' || message.from == '559188502326@c.us' || message.from == '559187597762@c.us'; 
+    let permission = false;
 
     const encomenda = /\bencomenda\b/i;
     const informar = /\binformar\b/i;
     const pedido = /\bpedido\b.*\bno\b.*\bseu\b.\bsite\b/i;
 
-    const userId = message.from
+    const userId = message.from;
     const meNumber = '5591987597762@c.us';
 
     let mensagem = responseDoubt;
@@ -68,7 +70,14 @@ async function reply(message, client) {
                         //client.sendMessage(message.from, `[teste]teste`);
                     }
                 } 
-            else // Inicia o atendimento com a mensagem do cliente
+            else
+            if (message.body == '!rede' && condition && autorized){
+                console.log(`[reply] usuário autorizado`)
+                permission = true;
+                checkingNetwork(message, client, permission)
+                userStage.fase = 'menu_start';
+            } else 
+            // Inicia o atendimento com a mensagem do cliente
                 if (/\b[\p{L}\p{P}\p{S}]+$\b/u.test(message.body) && condition) {
                     console.log(` dia da semana:  `+diaSemana);
                     atendimentoInicial(message, client);
@@ -77,16 +86,15 @@ async function reply(message, client) {
 
             // Opções de atendimento
             if (['1', '2', '3', '4', '5', '6', '7'].includes(message.body)) {
-                if (userStage.fase == 'doubt'){
-                    responderDuvida(message,client);
-                }
                 if (userStage.fase == 'menu_start') {
                     options(message, client);
                 }
                 if (userStage.fase == 'checkingNetwork'){
                     checkingNetwork(message, client);
+                } else 
+                if (userStage.fase == 'doubt'){
+                    responderDuvida(message,client);
                 }
-                
             }
 
             // Verifica se a mensagem não é do tipo chat
@@ -112,12 +120,12 @@ async function atendimentoInicial(message, client) {
      */
     await client.sendMessage(message.from,`Seja bem-vindo ao canal de suporte e atendimento de T.I. da Oyamota. Estamos disponíveis de 8h às 12h & 13h às 18h, de segunda a sexta!`);
 
-    if (diaSemana == `domingo` && diaSemana == `sábado`) {
+    if (diaSemana == `domingo` || diaSemana == `sábado`) {
         await message.reply(`O período de suporte é de 8h às 18h ⏰🧑‍💻👩‍💻, exceto aos sábados e domingos ❌📆. Você pode enviar um e-mail para ti@oyamota.com.br. Equipe de T.I. Oyamota agradece o contato. 🙌🕐`)
     } else {
         await client.sendMessage(message.from, `Para seguir com seu atendimento, por favor, responda com o número das opções abaixo: 🔽
-            \n1️⃣. Dúvidas ❓\n2️⃣. Falha em Rede ❌🛜\n3️⃣. Falha em Equipamento ❌🖥️\n4️⃣. Solicitar compra ou troca de material 🛠️🔄\n5️⃣. Solicitações de impressoras 🖨️\n6️⃣. Suporte 🧑‍💻⚠️`);
+            \n1️⃣. Dúvidas ❓\n2️⃣. Falha em Rede ❌🛜\n3️⃣. Falha em Equipamento ou Software(Programa) ❌🖥️\n4️⃣. Solicitar compra ou troca de material 🛠️🔄\n5️⃣. Solicitações de impressoras 🖨️\n6️⃣. Suporte 🧑‍💻⚠️`);
     }
 }
 
-module.exports = { reply, hours, diaSemana, atendimentoInicial};
+module.exports = { reply, hours, diaSemana};

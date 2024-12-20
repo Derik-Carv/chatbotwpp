@@ -1,7 +1,6 @@
 const { stages, chatStage, check } = require(`../../gerenciator/chatstage`);
 const { help } = require("../../interaction/help");
 const { clameSuport } = require("../../interaction/suporte");
-const { atendimentoInicial } = require('../reply');
 
 async function responderDuvida(message, client) {
     Object.values(stages).forEach(userStage =>{

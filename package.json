@@ -19,7 +19,6 @@
     "node": "^20.13.1",
     "nvm": "^0.0.4",
     "ping": "^0.4.4",
-    "puppeteer-core": "^23.10.4",
     "qrcode-terminal": "^0.12.0",
     "whatsapp-web.js": "^1.26.0",
     "wwebjs-mongo": "^1.1.0",

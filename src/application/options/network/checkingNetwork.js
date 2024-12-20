@@ -1,8 +1,8 @@
 const { pingServer } = require('../sections/pingServer');
 
-async function checkingNetwork(message, client) {
-    if (message.body == '3') {
-        const pingResponse = await pingServer(); // Aguarda a execução do ping
+async function checkingNetwork(message, client, c) {
+    if (message.body == '3' || c) {
+        const pingResponse = await pingServer(c); // Aguarda a execução do ping
         try {
             message.reply(`${pingResponse}`);
         } catch (error) {

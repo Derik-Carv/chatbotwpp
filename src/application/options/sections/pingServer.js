@@ -1,8 +1,8 @@
 const ping = require('ping');
 
-const ips = ['10.10.0.2', '10.10.0.146', '10.10.0.109'];
+const ips = ['10.10.0.2', '10.10.0.146'];
 
-async function pingServer() {
+async function pingServer(c) {
     let results = [];
 
     for (const ip of ips) {
@@ -24,10 +24,20 @@ async function pingServer() {
     const response = results.map(result => {
         const { ip, times } = result;
         const hasTimeout = times.includes('timeout');
+        let server = '';
+        server = ip;
+        if (!c){
+            if (ip == '10.10.0.2'){
+                server = 'Servidor Antigo'
+            }
+            if (ip == '10.10.0.146'){
+                server = 'Servidor Novo'
+            }
+        }
         if (hasTimeout) {
-            return `❌ IP: ${ip, times}\nERRO: Não foi possível se comunicar com o servidor: ${ip}.`;
+            return `❌ SERVIDOR: ${server, times}\nERRO: Não foi possível se comunicar com o servidor: ${server}.`;
         }  else {
-            return `✔️ IP: ${ip}\nTempo(ms): ${times.join(' | ')}`;
+            return `✔️ SERVIDOR: ${server}\nTempo(ms): ${times.join(' | ')}`;
         }
     }).join('\n\n');
 

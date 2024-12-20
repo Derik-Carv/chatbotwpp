@@ -100,8 +100,8 @@ npm install qrcode-terminal@0.12.0
 ```
 
 ```
-npm install ping
+npm install ping@0.4.4
 ```
 ```
-npm install xlsx
+npm install xlsx@0.18.5
 ```

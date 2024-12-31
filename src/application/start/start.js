@@ -29,7 +29,7 @@ async function start() {
             return;
         }
 
-        if (message.from == '559187597762@c.us' || message.from == '559182686234@c.us') {
+        if (message.from == '559187597762@c.us') {
             try {
                 console.log(`[start] ` + message.body);
                 reply(message, client);

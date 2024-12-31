@@ -1,4 +1,5 @@
 const ping = require('ping');
+const { check } = require('../../gerenciator/chatstage');
 
 const ips = ['10.10.0.2', '10.10.0.146'];
 

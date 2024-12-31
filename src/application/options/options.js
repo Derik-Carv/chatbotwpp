@@ -18,8 +18,7 @@ async function options(message, client) {
                 }
                 if (message.body === '2' && userStage.fase == 'menu_start') {
                     console.log(`[options] opção 2`)
-                    message.reply('01. Falha em meu equipamento.\n02. Falha em todo meu setor.\n03. Consultar estatus do servidor.\n04. Voltar ao menu.');
-                    check(message, stageNow = 'checkingNetwork')
+                    optionsCheckingNetwork(message);
                 }
                 let explication;
                 if (message.body === '3' && userStage.fase == 'menu_start') {
@@ -49,5 +48,9 @@ async function options(message, client) {
                 
             })
 }
+
+async function optionsCheckingNetwork(message) {
+    await message.reply('01. Falha em meu equipamento.\n02. Falha em todo meu setor.\n03. Consultar estatus do servidor.\n04. Voltar ao menu.');
+    await check(message, stageNow = 'checkingNetwork');}
 
 module.exports = { options, responseDoubt };

@@ -31,6 +31,8 @@ async function reply(message, client) {
         // Chama a função chatStage para verificar e atualizar o estágio do usuário
         await chatStage(message, userId);
 
+        console.log(`[reply] dia da semana:  `+diaSemana);
+
         // Chamando Submenu do catalogo
         Object.values(stages).forEach(userStage => {
         
@@ -75,11 +77,9 @@ async function reply(message, client) {
                 console.log(`[reply] usuário autorizado`)
                 permission = true;
                 checkingNetwork(message, client, permission)
-                userStage.fase = 'menu_start';
             } else 
             // Inicia o atendimento com a mensagem do cliente
                 if (/\b[\p{L}\p{P}\p{S}]+$\b/u.test(message.body) && condition) {
-                    console.log(` dia da semana:  `+diaSemana);
                     atendimentoInicial(message, client);
                     
             }
@@ -119,7 +119,10 @@ async function atendimentoInicial(message, client) {
         O Try catch abaixo foi implementado para indicar a possibilidade deste problema.
      */
     await client.sendMessage(message.from,`Seja bem-vindo ao canal de suporte e atendimento de T.I. da Oyamota. Estamos disponíveis de 8h às 12h & 13h às 18h, de segunda a sexta!`);
+    returnAtendimento (message, client);
+}
 
+async function returnAtendimento(message, client) {
     if (diaSemana == `domingo` || diaSemana == `sábado`) {
         await message.reply(`O período de suporte é de 8h às 18h ⏰🧑‍💻👩‍💻, exceto aos sábados e domingos ❌📆. Você pode enviar um e-mail para ti@oyamota.com.br. Equipe de T.I. Oyamota agradece o contato. 🙌🕐`)
     } else {

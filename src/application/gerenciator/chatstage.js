@@ -10,7 +10,7 @@ class Stage {
 const stages = {};
 
 async function chatStage(message, userId, stageNow) {
-    //if (userId != '559188502326@c.us') {
+    if (userId != '5591987597762@c.us') {
         console.log('[chatstage] in use');
         // Verifica se já existe um estágio para o usuário
         let userStage = stages[userId];
@@ -23,7 +23,7 @@ async function chatStage(message, userId, stageNow) {
         }
         
         console.log(`[chatstage] ${stageNow}`);
-    //}
+    }
 }
 
 async function check(message, stageNow) {
